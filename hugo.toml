@@ -20,8 +20,8 @@ disableKinds = ["taxonomy", "term", "rss", "sitemap", "404", "robotstxt"]
   # page being read. Leave both empty to have the GitHub workflow fill in the
   # repository and branch it is building; a build on your own computer then
   # has no GitHub link.
-  github = ""
-  githubBranch = ""
+  github = "https://github.com/teddyml/class-notes"
+  githubBranch = "main"
 
   # Where icons are fetched from when the site is built. %s is the icon's name.
   icons = "https://raw.githubusercontent.com/tabler/tabler-icons/v3.48.0/icons/outline/%s.svg"
