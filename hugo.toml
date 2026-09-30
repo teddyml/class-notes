@@ -31,3 +31,4 @@ disableKinds = ["taxonomy", "term", "rss", "sitemap", "404", "robotstxt"]
   [markup.goldmark.extensions.passthrough.delimiters]
     block = [["$$", "$$"], ["\\[", "\\]"]]
     inline = [["$", "$"], ["\\(", "\\)"]]
+    
