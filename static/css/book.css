@@ -188,7 +188,6 @@ a:hover {
   padding: 1.2rem 1.25rem 1.1rem;
   background: var(--page);
   border-top: 4px solid var(--book, #8a8a8a);
-  border-radius: 3px;
   text-decoration: none;
 }
 
