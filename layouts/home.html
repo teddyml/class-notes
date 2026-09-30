@@ -1,7 +1,3 @@
-{{ define "header" }}
-    <a class="header-link" href="{{ (site.GetPage "/edit").RelPermalink }}">Editor</a>
-{{- end }}
-
 {{ define "main" }}
 {{- /* Group the books by semester. Books without one are listed last. */ -}}
 {{- $groups := dict -}}

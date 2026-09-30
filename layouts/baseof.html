@@ -52,7 +52,11 @@
 <body{{ if .IsHome }} class="home"{{ else if $isEditor }} class="editor"{{ end }}{{ with $style }} style="{{ . | safeCSS }}"{{ end }}>
   <header class="site-header">
     <a class="logo" href="{{ site.Home.RelPermalink }}">{{ partial "logo.html" . }}</a>
-    {{- block "header" . }}{{ end }}
+    <div class="header-end">
+      {{- block "header" . }}
+      {{ partial "github.html" . }}
+      {{- end }}
+    </div>
   </header>
 
   {{ block "main" . }}{{ end }}

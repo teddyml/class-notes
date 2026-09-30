@@ -14,6 +14,15 @@ disableKinds = ["taxonomy", "term", "rss", "sitemap", "404", "robotstxt"]
   # https://tabler.io/icons
   icon = "notebook"
 
+  # The site's repository on GitHub, such as "https://github.com/USER/REPO",
+  # and the branch it is published from. They make the GitHub link in the top
+  # bar, which goes to the repository, or inside a book to the file of the
+  # page being read. Leave both empty to have the GitHub workflow fill in the
+  # repository and branch it is building; a build on your own computer then
+  # has no GitHub link.
+  github = ""
+  githubBranch = ""
+
   # Where icons are fetched from when the site is built. %s is the icon's name.
   icons = "https://raw.githubusercontent.com/tabler/tabler-icons/v3.48.0/icons/outline/%s.svg"
 
@@ -31,4 +40,3 @@ disableKinds = ["taxonomy", "term", "rss", "sitemap", "404", "robotstxt"]
   [markup.goldmark.extensions.passthrough.delimiters]
     block = [["$$", "$$"], ["\\[", "\\]"]]
     inline = [["$", "$"], ["\\(", "\\)"]]
-    

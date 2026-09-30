@@ -109,13 +109,27 @@ a:hover {
   outline-color: var(--on-accent);
 }
 
+/* What sits at the right of the bar: the GitHub link, and on small screens
+   the Contents button. */
+.header-end {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
 .header-link {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.4rem;
   text-decoration: none;
 }
 
-.header-link:hover {
+.header-link:hover span {
   text-decoration: underline;
   text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
 }
 
 #nav-toggle {
@@ -620,6 +634,16 @@ mjx-container[jax="SVG"] > svg a {
 
   #nav-toggle {
     display: block;
+  }
+
+  /* Only the icon; the word stays available to screen readers. */
+  .header-link span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   /* The sidebar becomes a panel that opens under the top bar. */

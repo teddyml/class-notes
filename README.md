@@ -100,6 +100,22 @@ pages, counted the way `wc -w` counts them.
 
 To add a book, create a new folder under `content/` with an `_index.md`.
 
+## GitHub link
+
+The link at the right of the top bar goes to the site's repository on GitHub.
+Inside a book it goes instead to the Markdown file of the page being read.
+
+The repository is `github` in `hugo.toml`, and the branch is `githubBranch`:
+
+    github = "https://github.com/USER/REPO"
+    githubBranch = "main"
+
+Both can be left empty. The workflow in `.github/workflows` then fills in the
+repository and branch it is building, so a site published that way gets the
+right link with nothing to set. A build on your own computer with both empty
+has no GitHub link. The file links assume `hugo.toml` is at the top level of
+the repository.
+
 ## Chat button
 
 The Chat button beside each page's name opens a new chat with Claude or ChatGPT
@@ -111,10 +127,11 @@ pasted. The addresses and the length limit are at the top of
 
 ## Editor
 
-`/edit` (`edit/index.html` in the compiled site) is a separate tool. It opens
-one Markdown file from disk, shows its source on the left and the rendered page
-on the right, and saves every change back to the same file a moment after you
-stop typing (or at once with Ctrl/Cmd+S). It needs no server and works when
+`/edit` (`edit/index.html` in the compiled site) is a separate tool. Nothing on
+the site links to it; open it by its address. It opens one Markdown file from
+disk, shows its source on the left and the rendered page on the right, and
+saves every change back to the same file a moment after you stop typing (or at
+once with Ctrl/Cmd+S). It needs no server and works when
 opened from disk. It does not need to know which book the file belongs to.
 
 It relies on the browser's File System Access API, which Chrome and Edge have

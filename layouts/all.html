@@ -1,7 +1,8 @@
 {{- /* Every page inside a book. */ -}}
 
 {{ define "header" }}
-    <button type="button" id="nav-toggle" aria-expanded="false" aria-controls="sidebar">Contents</button>
+      {{ partial "github.html" . }}
+      <button type="button" id="nav-toggle" aria-expanded="false" aria-controls="sidebar">Contents</button>
 {{- end }}
 
 {{ define "main" }}

@@ -1,0 +1,22 @@
+{{- /*
+  The GitHub link in the top bar. Inside a book it goes to the source file of
+  the page being read; everywhere else it goes to the repository.
+
+  The repository is `github` in hugo.toml. When that is empty and the site is
+  being built by the workflow in .github/workflows, the repository and branch
+  the workflow is building are used. With neither, there is no link.
+*/ -}}
+{{- $repo := site.Params.github | default site.Params.githubFromWorkflow | default "" -}}
+{{- $repo = $repo | strings.TrimSuffix "/" | strings.TrimSuffix ".git" -}}
+{{- with $repo -}}
+  {{- $url := . -}}
+  {{- $label := "This site on GitHub" -}}
+  {{- if not (or $.IsHome (eq $.Layout "edit")) -}}
+    {{- with $.File -}}
+      {{- $branch := site.Params.githubBranch | default site.Params.branchFromWorkflow | default "main" -}}
+      {{- $url = printf "%s/blob/%s/content/%s" $repo $branch (replace .Path `\` "/") -}}
+      {{- $label = "This page on GitHub" -}}
+    {{- end -}}
+  {{- end -}}
+  <a class="header-link" href="{{ $url }}" title="{{ $label }}">{{ partial "icon.html" "brand-github" }}<span>GitHub</span></a>
+{{- end -}}
