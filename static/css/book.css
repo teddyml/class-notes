@@ -312,6 +312,7 @@ main {
 article,
 .pager {
   max-width: var(--measure);
+  font-size: 0.94rem;
 }
 
 h1,
