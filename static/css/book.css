@@ -132,15 +132,7 @@ a:hover {
 /* Home: the grid of books -------------------------------------------------- */
 
 .home {
-  background: var(--dark);
-}
-
-.home .site-header {
-  border-bottom: 1px solid #454545;
-}
-
-.home :focus-visible {
-  outline-color: var(--on-accent);
+  background: var(--sidebar);
 }
 
 .home main {
@@ -157,8 +149,8 @@ a:hover {
 .semester h2 {
   margin: 0 0 1.25rem;
   padding-bottom: 0.6rem;
-  border-bottom: 1px solid #454545;
-  color: #c9c9c5;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
   font-size: 0.94rem;
   font-weight: 600;
   letter-spacing: 0.06em;
