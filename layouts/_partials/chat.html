@@ -1,0 +1,15 @@
+{{- /*
+  The button beside the page name that opens this page in a chat with Claude
+  or ChatGPT. The page's Markdown source travels with it; see static/js/book.js.
+*/ -}}
+<div class="chat" data-title="{{ .Title }}" data-book="{{ .FirstSection.Title }}" data-source="{{ .RawContent }}">
+  <button type="button" class="chat-button" aria-haspopup="true" aria-expanded="false" aria-controls="chat-menu">
+    {{ partial "icon.html" "message-circle" }}
+    <span>Chat</span>
+    {{ partial "icon.html" "chevron-down" }}
+  </button>
+  <ul class="chat-menu" id="chat-menu" hidden>
+    <li><button type="button" data-chat="claude">Claude</button></li>
+    <li><button type="button" data-chat="chatgpt">ChatGPT</button></li>
+  </ul>
+</div>

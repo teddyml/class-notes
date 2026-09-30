@@ -1,0 +1,27 @@
+{{- /* Every page inside a book. */ -}}
+
+{{ define "header" }}
+    <button type="button" id="nav-toggle" aria-expanded="false" aria-controls="sidebar">Contents</button>
+{{- end }}
+
+{{ define "main" }}
+{{- $book := .FirstSection }}
+{{ partial "sidebar.html" . }}
+
+<main>
+  <article>
+    <header class="page-header">
+      <h1>{{ .Title }}</h1>
+      {{- if ne . $book }}
+      {{ partial "chat.html" . }}
+      {{- end }}
+    </header>
+    {{ .Content }}
+  </article>
+  {{ partial "pager.html" . }}
+</main>
+{{ end }}
+
+{{ define "scripts" }}
+  <script src="{{ "js/book.js" | relURL }}"></script>
+{{- end }}

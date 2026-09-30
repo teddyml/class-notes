@@ -1,0 +1,36 @@
+{{ define "header" }}
+    <a class="header-link" href="{{ (site.GetPage "/edit").RelPermalink }}">Editor</a>
+{{- end }}
+
+{{ define "main" }}
+{{- /* Group the books by semester. Books without one are listed last. */ -}}
+{{- $groups := dict -}}
+{{- $keys := slice -}}
+{{- range where .Sections "Layout" "ne" "edit" -}}
+  {{- $data := partialCached "book.html" . .Path -}}
+  {{- $key := $data.semesterKey | default "000" -}}
+  {{- $keys = $keys | append $key -}}
+  {{- $groups = merge $groups (dict $key (index $groups $key | default slice | append .)) -}}
+{{- end -}}
+<main>
+  <h1 class="visually-hidden">{{ site.Title }}</h1>
+  {{- range sort (uniq $keys) "value" "desc" }}
+  {{- $books := index $groups . }}
+  <section class="semester">
+    <h2>{{ (partialCached "book.html" (index $books 0) (index $books 0).Path).semester | default "Other" }}</h2>
+    <ul class="books">
+      {{- range $books }}
+      {{- $data := partialCached "book.html" . .Path }}
+      <li>
+        <a class="card" href="{{ (or $data.first .).RelPermalink }}"{{ with $data.color }} style="{{ printf "--book: %s;" . | safeCSS }}"{{ end }}>
+          {{ partial "icon.html" (.Params.icon | default "book") }}
+          <span class="card-title">{{ .Title }}</span>
+          <span class="card-meta">{{ partial "words.html" $data.words }}</span>
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+</main>
+{{ end }}

@@ -1,0 +1,11 @@
+{{- /*
+  Hands math to MathJax untouched by Markdown, with HTML characters such as
+  < and & escaped. Math written inside a blockquote arrives with the quote
+  markers still attached to each line, so those are removed first.
+*/ -}}
+{{- $math := replaceRE `\n(?:[ \t]*>)+[ \t]?` "\n" .Inner -}}
+{{- if eq .Type "block" -}}
+\[{{ $math }}\]
+{{- else -}}
+\({{ $math }}\)
+{{- end -}}

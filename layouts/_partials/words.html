@@ -1,0 +1,2 @@
+{{- /* Prints a word count, e.g. "12,480 words". */ -}}
+{{- lang.FormatNumber 0 . }} {{ cond (eq . 1) "word" "words" -}}

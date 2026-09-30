@@ -1,0 +1,33 @@
+baseURL = "/"
+title = "Teddy’s Notes"
+locale = "en"
+
+# Relative links and .html file names, so the compiled site works from any
+# folder or host path, and also when opened straight from disk.
+relativeURLs = true
+uglyURLs = true
+
+disableKinds = ["taxonomy", "term", "rss", "sitemap", "404", "robotstxt"]
+
+[params]
+  # The icon beside the site name in the top bar: any name from
+  # https://tabler.io/icons
+  icon = "notebook"
+
+  # Where icons are fetched from when the site is built. %s is the icon's name.
+  icons = "https://raw.githubusercontent.com/tabler/tabler-icons/v3.48.0/icons/outline/%s.svg"
+
+# Chapters are headings in the sidebar, not pages of their own. A chapter is
+# any folder inside a book's folder.
+[[cascade]]
+  [cascade.target]
+    kind = "section"
+    path = "/*/**"
+  [cascade.build]
+    render = "never"
+
+[markup.goldmark.extensions.passthrough]
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    block = [["$$", "$$"], ["\\[", "\\]"]]
+    inline = [["$", "$"], ["\\(", "\\)"]]

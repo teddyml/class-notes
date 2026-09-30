@@ -1,0 +1,161 @@
+/* The editor at /edit: source on the left, rendered page on the right. */
+
+.editor {
+  overflow: hidden;
+}
+
+.editor main {
+  position: fixed;
+  top: var(--header-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Top bar: file name, save status, and a button to open another file. */
+
+.file-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+#file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#save-status {
+  flex: none;
+  color: #b5b5b0;
+}
+
+#save-status.problem {
+  color: #f0b4a8;
+}
+
+.bar-button {
+  flex: none;
+  padding: 0.05rem 0.6rem;
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Before a file is open. */
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 100%;
+  padding: 1.5rem;
+  background: var(--sidebar);
+  text-align: center;
+}
+
+.welcome[hidden] {
+  display: none;
+}
+
+.welcome button {
+  padding: 0.55rem 1.1rem;
+  background: var(--page);
+  border: 1px solid #9a9a9a;
+  border-radius: 3px;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.welcome button:hover:not(:disabled) {
+  border-color: var(--text);
+}
+
+.welcome button:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.welcome p {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.89rem;
+}
+
+/* The two halves. */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+}
+
+.split[hidden] {
+  display: none;
+}
+
+.source {
+  min-width: 0;
+  min-height: 0;
+  background: var(--sidebar);
+  border-right: 1px solid var(--line);
+}
+
+.preview {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--page);
+}
+
+.preview-inner {
+  position: relative;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 3rem 2.5rem 4rem;
+  box-sizing: content-box;
+}
+
+/* The next version of the preview is laid out here, unseen, and swapped in
+   once its math is typeset, so the visible page never flickers. */
+.preview .staging {
+  position: absolute;
+  top: 0;
+  left: 2.5rem;
+  right: 2.5rem;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+@media (max-width: 52rem) {
+  .split {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .source {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .preview-inner {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
+  .preview .staging {
+    left: 1.25rem;
+    right: 1.25rem;
+  }
+}

@@ -1,0 +1,11 @@
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      tags: 'ams'
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script defer src="{{ "js/mathjax-tex-svg.js" | relURL }}"></script>

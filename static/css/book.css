@@ -1,0 +1,715 @@
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../fonts/source-serif-4-latin-wght-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../fonts/source-serif-4-latin-wght-italic.woff2") format("woff2");
+}
+
+:root {
+  --text: #222222;
+  --muted: #6a6a6a;
+  --line: #d8d8d5;
+  --page: #ffffff;
+  --sidebar: #f3f3f1;
+  --tint: #f6f6f4;
+  --dark: #2b2b2b;
+  --accent: var(--dark);
+  --on-accent: #f3f3f1;
+  --header-height: 2.25rem;
+  --sidebar-width: 18rem;
+  --title-size: 1.9rem;
+  --measure: 42rem;
+  --spare: calc(100vw - var(--sidebar-width) - var(--measure));
+  --gutter: clamp(2.5rem, calc(var(--spare) * 0.4), var(--sidebar-width));
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-height) + 1rem);
+}
+
+body {
+  margin: 0;
+  padding-top: var(--header-height);
+  background: var(--page);
+  color: var(--text);
+  font-family: var(--serif);
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: #9a9a9a;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid #555555;
+  outline-offset: 2px;
+}
+
+/* Bar across the top ------------------------------------------------------- */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--header-height);
+  padding: 0 1.5rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.89rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.icon {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.site-header :focus-visible {
+  outline-color: var(--on-accent);
+}
+
+.header-link {
+  text-decoration: none;
+}
+
+.header-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+#nav-toggle {
+  display: none;
+  padding: 0.05rem 0.6rem;
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Home: the grid of books -------------------------------------------------- */
+
+.home {
+  background: var(--dark);
+}
+
+.home .site-header {
+  border-bottom: 1px solid #454545;
+}
+
+.home :focus-visible {
+  outline-color: var(--on-accent);
+}
+
+.home main {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* One block per semester: a heading such as FA26, then that semester's books. */
+.semester + .semester {
+  margin-top: 3rem;
+}
+
+.semester h2 {
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #454545;
+  color: #c9c9c5;
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A card's colored strip and icon take the book's own color. */
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 11.5rem;
+  padding: 1.2rem 1.25rem 1.1rem;
+  background: var(--page);
+  border-top: 4px solid var(--book, #8a8a8a);
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.card .icon {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: auto;
+  color: var(--book, var(--muted));
+  stroke-width: 1.5;
+}
+
+.card-title {
+  margin-top: 1.5rem;
+  font-size: 1.22rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.card:hover .card-title {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.card-meta {
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.83rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Sidebar ---------------------------------------------------------------- */
+
+.sidebar {
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  padding: 2rem 1.5rem 3rem;
+  overflow-y: auto;
+  background: var(--sidebar);
+  border-right: 1px solid var(--line);
+  font-size: 0.89rem;
+  line-height: 1.4;
+}
+
+.sidebar a {
+  text-decoration: none;
+}
+
+.book-head {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.book-title {
+  display: block;
+  font-size: 1.22rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.book-meta {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.83rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sidebar h2 {
+  margin: 1.6rem 0 0.4rem;
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.sidebar ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar li a {
+  display: block;
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding: 0.3rem 1.5rem 0.3rem calc(1.5rem - 2px);
+  border-left: 2px solid transparent;
+  color: var(--muted);
+}
+
+.sidebar li a:hover {
+  color: var(--text);
+}
+
+.sidebar li a[aria-current] {
+  border-left-color: var(--text);
+  color: var(--text);
+}
+
+/* Page ------------------------------------------------------------------- */
+
+/* The width left over beside the sidebar and the text column is split
+   unevenly: two fifths go between the sidebar and the text, the rest to the
+   right. The gap is never wider than the sidebar itself. */
+
+main {
+  margin-left: var(--sidebar-width);
+  padding: 3.5rem 2.5rem 4rem var(--gutter);
+}
+
+article,
+.pager {
+  max-width: var(--measure);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.25;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+h1 {
+  margin: 0 0 2rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--title-size);
+}
+
+/* The page name, with the Chat button at its far right. */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 0 0 2rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.page-header h1 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* The button is as tall as the page name's letters, from the top of the tall
+   ones (d, l) to the bottom of the hanging ones (g, p), and sits level with
+   them. In this typeface that span is one font-size tall and starts 0.23 of a
+   font-size below the top of the line. */
+.chat {
+  position: relative;
+  flex: none;
+  margin-top: calc(var(--title-size) * 0.23);
+}
+
+.chat-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: var(--title-size);
+  padding: 0 0.55rem 0 0.7rem;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.89rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chat-button:hover,
+.chat-button[aria-expanded="true"] {
+  border-color: #9a9a9a;
+  color: var(--text);
+}
+
+.chat-button .icon {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 1.75;
+}
+
+.chat-menu {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  right: 0;
+  z-index: 3;
+  min-width: 9rem;
+  margin: 0;
+  padding: 0.3rem 0;
+  list-style: none;
+  background: var(--page);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.chat-menu li {
+  margin: 0;
+}
+
+.chat-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.35rem 0.8rem;
+  background: none;
+  border: 0;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.89rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chat-menu button:hover,
+.chat-menu button:focus-visible {
+  background: var(--tint);
+  outline: 0;
+}
+
+article h2 {
+  margin: 2.6rem 0 0.8rem;
+  font-size: 1.35rem;
+}
+
+article h3 {
+  margin: 2rem 0 0.6rem;
+  font-size: 1.1rem;
+}
+
+article h4 {
+  margin: 1.6rem 0 0.4rem;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+p,
+ul,
+ol,
+table,
+pre,
+blockquote,
+.env {
+  margin: 0 0 1.1rem;
+}
+
+article ul,
+article ol {
+  padding-left: 1.5rem;
+}
+
+article li {
+  margin: 0.3rem 0;
+}
+
+article li::marker {
+  color: var(--muted);
+}
+
+hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--line);
+  color: var(--muted);
+}
+
+blockquote > :last-child,
+.env > :last-child {
+  margin-bottom: 0;
+}
+
+/* Definitions, theorems, examples, proofs -------------------------------- */
+
+.env {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.1rem 0 0.1rem 1.1rem;
+  border-left: 2px solid #9a9a9a;
+}
+
+.env-label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.env-title {
+  font-weight: 400;
+}
+
+.env-proof,
+.env-solution {
+  border-left-color: var(--line);
+}
+
+.env-proof .env-label,
+.env-solution .env-label {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.env-proof > :last-child::after {
+  content: "\25FB";
+  float: right;
+  margin-left: 1rem;
+  color: var(--muted);
+}
+
+/* Tables ------------------------------------------------------------------ */
+
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.94rem;
+}
+
+th,
+td {
+  padding: 0.45rem 1.4rem 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  border-bottom-color: #9a9a9a;
+  font-weight: 600;
+}
+
+/* Code -------------------------------------------------------------------- */
+
+code {
+  font-family: var(--mono);
+  font-size: 0.82em;
+}
+
+:not(pre) > code {
+  padding: 0.1em 0.3em;
+  background: var(--tint);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+pre {
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  background: var(--tint);
+  border: 1px solid var(--line);
+  line-height: 1.5;
+}
+
+.footnote-ref {
+  text-decoration: none;
+}
+
+.footnotes {
+  margin-top: 3rem;
+  font-size: 0.89rem;
+}
+
+/* Math -------------------------------------------------------------------- */
+
+mjx-container[display="true"] {
+  margin: 1.2rem 0 !important;
+  padding: 2px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.env > mjx-container[display="true"]:last-child {
+  margin-bottom: 0.3rem !important;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Previous / next --------------------------------------------------------- */
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 3.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.94rem;
+}
+
+.pager a {
+  text-decoration: none;
+}
+
+.pager a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.pager .next {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* Small screens ------------------------------------------------------------ */
+
+@media (max-width: 52rem) {
+  html {
+    font-size: 17px;
+  }
+
+  .site-header {
+    padding: 0 1.25rem;
+  }
+
+  #nav-toggle {
+    display: block;
+  }
+
+  /* The sidebar becomes a panel that opens under the top bar. */
+  .sidebar {
+    display: none;
+    right: 0;
+    width: auto;
+    padding: 1.5rem 1.25rem 2rem;
+    border-right: 0;
+    z-index: 5;
+  }
+
+  .nav-open .sidebar {
+    display: block;
+  }
+
+  .sidebar li a {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    padding: 0.45rem 1.25rem 0.45rem calc(1.25rem - 2px);
+  }
+
+  main {
+    margin-left: 0;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  .home main {
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  :root {
+    --title-size: 1.6rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .books {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    min-height: 9.5rem;
+  }
+}
+
+/* Print -------------------------------------------------------------------- */
+
+@media print {
+  html {
+    font-size: 11pt;
+  }
+
+  body {
+    padding-top: 0;
+  }
+
+  .site-header,
+  .sidebar,
+  .chat,
+  .pager {
+    display: none;
+  }
+
+  main {
+    margin: 0;
+    padding: 0;
+  }
+
+  article {
+    max-width: none;
+  }
+
+  .env,
+  pre,
+  table {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+}

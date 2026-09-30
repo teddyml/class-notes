@@ -1,0 +1,22 @@
+{{- /* Previous / next links, following the reading order of the book. */ -}}
+{{- $book := .FirstSection -}}
+{{- $pages := (partialCached "book.html" $book $book.Path).pages -}}
+{{- $current := . -}}
+{{- $prev := false -}}
+{{- $next := false -}}
+{{- range $i, $page := $pages -}}
+  {{- if eq $page $current -}}
+    {{- if gt $i 0 }}{{ $prev = index $pages (sub $i 1) }}{{ end -}}
+    {{- if lt (add $i 1) (len $pages) }}{{ $next = index $pages (add $i 1) }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- if or $prev $next }}
+<nav class="pager" aria-label="Previous and next page">
+  {{- with $prev }}
+  <a class="prev" href="{{ .RelPermalink }}" rel="prev">← {{ .LinkTitle }}</a>
+  {{- end }}
+  {{- with $next }}
+  <a class="next" href="{{ .RelPermalink }}" rel="next">{{ .LinkTitle }} →</a>
+  {{- end }}
+</nav>
+{{- end }}

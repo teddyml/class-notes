@@ -1,0 +1,45 @@
+{{- /*
+  The editor: open a Markdown file from disk, edit its source on the left,
+  see it rendered on the right. Changes are saved back to the file. Nothing
+  here needs a server; see static/js/editor.js.
+*/ -}}
+
+{{ define "head" }}
+  <link rel="stylesheet" href="{{ "vendor/monaco/vs/editor/editor.main.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "css/editor.css" | relURL }}">
+{{- end }}
+
+{{ define "header" }}
+    <div class="file-bar">
+      <span id="file-name"></span>
+      <span id="save-status" role="status"></span>
+      <button type="button" class="bar-button" id="open-another" hidden>Open…</button>
+    </div>
+{{- end }}
+
+{{ define "main" }}
+<main>
+  <div class="welcome" id="welcome">
+    <button type="button" id="open-first">Open a Markdown file</button>
+    <p id="unsupported" hidden>This browser cannot save to files on your computer. Use Chrome or Edge.</p>
+  </div>
+
+  <div class="split" id="split" hidden>
+    <div class="source" id="source"></div>
+    <div class="preview" id="preview">
+      <div class="preview-inner">
+        <article></article>
+        <article class="staging" aria-hidden="true"></article>
+      </div>
+    </div>
+  </div>
+</main>
+{{ end }}
+
+{{ define "scripts" }}
+  <script src="{{ "vendor/markdown-it/markdown-it.min.js" | relURL }}"></script>
+  <script src="{{ "vendor/markdown-it/markdown-it-footnote.min.js" | relURL }}"></script>
+  <script src="{{ "vendor/markdown-it/markdown-it-deflist.min.js" | relURL }}"></script>
+  <script src="{{ "vendor/monaco/vs/loader.js" | relURL }}" id="monaco-loader"></script>
+  <script src="{{ "js/editor.js" | relURL }}"></script>
+{{- end }}

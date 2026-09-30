@@ -1,0 +1,18 @@
+{{- /*
+  Theorem-like blocks, written as Markdown alerts:
+
+    > [!theorem] Optional title
+    > Statement...
+
+  Any word works as the type (definition, theorem, lemma, example, proof, ...).
+*/ -}}
+{{- if eq .Type "alert" -}}
+<div class="env env-{{ .AlertType }}">
+  <p class="env-label">{{ .AlertType | title }}{{ with .AlertTitle }} <span class="env-title">({{ . }})</span>{{ end }}</p>
+  {{ .Text }}
+</div>
+{{- else -}}
+<blockquote>
+  {{ .Text }}
+</blockquote>
+{{- end -}}

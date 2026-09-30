@@ -1,0 +1,26 @@
+{{- $current := . -}}
+{{- $book := .FirstSection -}}
+{{- $data := partialCached "book.html" $book $book.Path -}}
+<aside class="sidebar" id="sidebar">
+  <div class="book-head">
+    <a class="book-title" href="{{ (or $data.first $book).RelPermalink }}">{{ $book.Title }}</a>
+    <p class="book-meta">{{ with $data.semester }}{{ . }} • {{ end }}{{ partial "words.html" $data.words }}</p>
+  </div>
+  <nav aria-label="Contents">
+    {{- with $book.RegularPages.ByWeight }}
+    <ul>
+      {{- range . }}
+      <li><a href="{{ .RelPermalink }}"{{ if eq . $current }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+    {{- end }}
+    {{- range $book.Sections.ByWeight }}
+    <h2>{{ .LinkTitle }}</h2>
+    <ul>
+      {{- range .RegularPages.ByWeight }}
+      <li><a href="{{ .RelPermalink }}"{{ if eq . $current }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+    {{- end }}
+  </nav>
+</aside>

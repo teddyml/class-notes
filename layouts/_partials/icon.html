@@ -1,0 +1,23 @@
+{{- /*
+  Prints an icon from Tabler Icons (https://tabler.io/icons), inline, so it
+  takes the color of the text around it. Call it with the icon's name:
+    {{ partial "icon.html" "matrix" }}
+
+  The icon is fetched from the Tabler Icons project while the site is built
+  (the address is `icons` in hugo.toml) and written into the page, so the
+  compiled site makes no such request. Hugo keeps what it has fetched, so
+  only the first build that uses an icon needs the internet.
+*/ -}}
+{{- $name := . -}}
+{{- $url := printf site.Params.icons $name -}}
+{{- with try (resources.GetRemote $url) -}}
+  {{- with .Err -}}
+    {{- errorf "Could not fetch the icon %q from %s: %s" $name $url . -}}
+  {{- else with .Value -}}
+    {{- $svg := replaceRE `(?s)^.*?<svg` "<svg" .Content 1 -}}
+    {{- $svg = replaceRE `\s+class="[^"]*"` "" $svg 1 -}}
+    {{- replace $svg "<svg" `<svg class="icon" aria-hidden="true"` 1 | safeHTML -}}
+  {{- else -}}
+    {{- errorf "There is no icon named %q. The names are listed at https://tabler.io/icons" $name -}}
+  {{- end -}}
+{{- end -}}

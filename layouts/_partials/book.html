@@ -1,0 +1,75 @@
+{{- /*
+  Returns what the templates need to know about a book (a folder directly
+  under content/):
+
+    pages        its pages in reading order: pages placed directly in the
+                 book's folder, then the pages of each chapter
+    first        the first of those, which is the page the book opens on
+    words        number of words in the Markdown source of all its pages,
+                 counted as `wc -w` counts them
+    semester     e.g. "FA26", or "" if the book has none
+    semesterKey  a string that sorts semesters in time order
+    color        the book's color, or "" if it has none
+    on           white or near-black, whichever reads better on that color
+*/ -}}
+
+{{- $pages := slice -}}
+{{- range .RegularPages.ByWeight -}}
+  {{- $pages = $pages | append . -}}
+{{- end -}}
+{{- range .Sections.ByWeight -}}
+  {{- range .RegularPages.ByWeight -}}
+    {{- $pages = $pages | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $first := false -}}
+{{- range first 1 $pages -}}
+  {{- $first = . -}}
+{{- end -}}
+
+{{- $words := 0 -}}
+{{- range $pages -}}
+  {{- $words = add $words (len (findRE `\S+` .RawContent)) -}}
+{{- end -}}
+
+{{- $semester := "" -}}
+{{- $semesterKey := "" -}}
+{{- with .Params.semester -}}
+  {{- $s := upper (string .) -}}
+  {{- if findRE `^(FA|SP)[0-9]{2}$` $s -}}
+    {{- $semester = $s -}}
+    {{- /* Year first, then spring before fall: SP26 → "261", FA26 → "262". */ -}}
+    {{- $semesterKey = printf "%s%s" (substr $s 2 2) (cond (hasPrefix $s "FA") "2" "1") -}}
+  {{- else -}}
+    {{- errorf "%s: semester %q must be FA or SP followed by a two-digit year, such as \"FA26\"" $.Path (string .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $color := "" -}}
+{{- $on := "" -}}
+{{- with .Params.color -}}
+  {{- if findRE `^#[0-9a-fA-F]{6}$` (string .) -}}
+    {{- $color = string . -}}
+    {{- /* Relative luminance of the color, from 0 (black) to 1 (white). */ -}}
+    {{- $luminance := 0.0 -}}
+    {{- range $i, $weight := slice 0.2126 0.7152 0.0722 -}}
+      {{- $v := div (float (int (printf "0x%s" (substr $color (add 1 (mul $i 2)) 2)))) 255.0 -}}
+      {{- $linear := cond (le $v 0.04045) (div $v 12.92) (math.Pow (div (add $v 0.055) 1.055) 2.4) -}}
+      {{- $luminance = add $luminance (mul $weight $linear) -}}
+    {{- end -}}
+    {{- $on = cond (lt $luminance 0.21) "#ffffff" "#222222" -}}
+  {{- else -}}
+    {{- errorf "%s: color %q must be a six-digit hex color such as \"#2e5c8a\"" $.Path (string .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return (dict
+  "pages" $pages
+  "first" $first
+  "words" $words
+  "semester" $semester
+  "semesterKey" $semesterKey
+  "color" $color
+  "on" $on
+) -}}

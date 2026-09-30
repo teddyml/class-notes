@@ -1,0 +1,62 @@
+{{- $isEditor := eq .Layout "edit" -}}
+
+{{- /* The book this page belongs to, if any. */ -}}
+{{- $book := false -}}
+{{- $data := dict -}}
+{{- if not (or .IsHome $isEditor) -}}
+  {{- $book = .FirstSection -}}
+  {{- $data = partialCached "book.html" $book $book.Path -}}
+{{- end -}}
+
+{{- if and $book (eq . $book) $data.first -}}
+{{- /* A book has no page of its own: its address sends the reader on to its first page. */ -}}
+<!DOCTYPE html>
+<html lang="{{ site.Language.Locale | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }} · {{ site.Title }}</title>
+  <link rel="canonical" href="{{ $data.first.RelPermalink }}">
+  <meta http-equiv="refresh" content="0; url={{ $data.first.RelPermalink }}">
+</head>
+<body>
+  <a href="{{ $data.first.RelPermalink }}">{{ .Title }}</a>
+</body>
+</html>
+{{- else -}}
+
+{{- /* Browser tab title: the site on the home page, "Page · Book" inside a book. */ -}}
+{{- $title := site.Title -}}
+{{- if and $book (ne . $book) -}}
+  {{- $title = printf "%s · %s" .Title $book.Title -}}
+{{- else if not .IsHome -}}
+  {{- $title = printf "%s · %s" .Title site.Title -}}
+{{- end -}}
+
+{{- /* Inside a book, the top bar takes the book's color. */ -}}
+{{- $style := "" -}}
+{{- with $data.color -}}
+  {{- $style = printf "--accent: %s; --on-accent: %s;" . $data.on -}}
+{{- end -}}
+<!DOCTYPE html>
+<html lang="{{ site.Language.Locale | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ $title }}</title>
+  <link rel="stylesheet" href="{{ "css/book.css" | relURL }}">
+  {{- if not .IsHome }}
+  {{ partial "mathjax.html" . }}
+  {{- end }}
+  {{- block "head" . }}{{ end }}
+</head>
+<body{{ if .IsHome }} class="home"{{ else if $isEditor }} class="editor"{{ end }}{{ with $style }} style="{{ . | safeCSS }}"{{ end }}>
+  <header class="site-header">
+    <a class="logo" href="{{ site.Home.RelPermalink }}">{{ partial "logo.html" . }}</a>
+    {{- block "header" . }}{{ end }}
+  </header>
+
+  {{ block "main" . }}{{ end }}
+  {{- block "scripts" . }}{{ end }}
+</body>
+</html>
+{{- end -}}
